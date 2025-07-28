@@ -1,8 +1,7 @@
 ARG SPARK_VERSION=3.5.6
 ARG PYTHON_VERSION=3.12
 
-# Stage 1: Download and extract Spark
-# Separate stage prevents build cache invalidation when other dependencies change
+# separate stage to prevent build cache invalidation when other dependencies change
 FROM alpine:latest AS spark-downloader
 ARG SPARK_VERSION
 RUN apk add --no-cache curl tar \
@@ -11,7 +10,6 @@ RUN apk add --no-cache curl tar \
     && tar -xf spark.tgz -C /opt/spark --strip-components=1 \
     && rm spark.tgz
 
-# Stage 2: Final image
 FROM python:${PYTHON_VERSION}
 
 # install java17
