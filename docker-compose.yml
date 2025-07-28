@@ -1,0 +1,31 @@
+services:
+  spark-master:
+    image: gitp/spark-3.5.6-17-3.12
+    environment:
+      - SPARK_WORKLOAD=master
+    ports:
+      - "8080:8080" # master's WEB UI
+      - "7077:7077" # port for service to listen on
+
+  spark-worker-1:
+    image: gitp/spark-3.5.6-17-3.12
+    ports:
+      - "8081:8080" # worker's WEB UI
+    environment:
+      - SPARK_WORKLOAD=worker
+
+  spark-worker-2:
+    image: gitp/spark-3.5.6-17-3.12
+    ports:
+      - "8082:8080" # worker's WEB UI
+    environment:
+      - SPARK_WORKLOAD=worker
+
+  history-server:
+    image: gitp/spark-3.5.6-17-3.12
+    ports:
+      - "18080:18080" # history-server's WEB UI
+    environment:
+      - SPARK_WORKLOAD=history
+    volumes:
+      - /tmp/spark-events:/tmp/spark-events
