@@ -11,7 +11,7 @@ docker spark cluster(standalone mode) scripts for educational purpose.
 # components
   - master
     - web-ui: http://localhost:8080
-    - spark_master_host: spark://localhost:7077
+    - spark_master_host: spark://localhost:7077 (in local) , spark://spark-master:7077 (in docker network)
   - worker-a
   - worker-b
   - history-server
@@ -20,11 +20,12 @@ docker spark cluster(standalone mode) scripts for educational purpose.
 # quick start
 build image
 ```bash
-# gitp/spark-<spark_version>-<jvm_version>-<python_version>
-docker build -t gitp/spark-3.5.6-17-3.12 .
+# gitp/spark:<spark_version>-<jvm_version>-<python_version>
+docker build -t gitp/spark:3.5.6-17-3.12 .
 ```
 create spark log directory for history server(in local)
 ```bash
+# ! run this command in local, not in docker containers
 mkdir /tmp/spark-events
 ```
 launch cluster
