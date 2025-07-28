@@ -1,17 +1,20 @@
 #!/bin/bash
 
 if [ "$SPARK_WORKLOAD" == "master" ]; then
-    start-master.sh
-    tail -f /dev/null
+    echo "starting spark master"
+    spark-class org.apache.spark.deploy.master.Master
 
 elif [ "$SPARK_WORKLOAD" == "worker" ]; then
-    start-worker.sh spark://spark-master:7077
-    tail -f /dev/null
+    echo "starting spark worker"
+    spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
 
 elif [ "$SPARK_WORKLOAD" == "history" ]; then
-    mkdir /tmp/spark-events
-    start-history-server.sh
-    tail -f /dev/null
+    echo "starting spark history server"
+    mkdir -p /tmp/spark-events
+    spark-class org.apache.spark.deploy.history.HistoryServer
+
 else
-    echo "undefined SPARK_WORKLOAD: $SPARK_WORKLOAD. available: master, worker, history"
+    echo "Error: undefined SPARK_WORKLOAD: $SPARK_WORKLOAD"
+    echo "Available options: master, worker, history"
+    exit 1
 fi
